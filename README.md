@@ -9,7 +9,7 @@ This is done in different Scenario1
 # Scenario1.py
 Class Scenario1.py first initiaise a grid world, default action sequence, action types and grid types
 
-Q_Table is initialise to 11 x 11 and in each grid cell Agent has 4 actions to take 11 x 11 x 4
+Q_Table is initialise to 13 x 13 and in each grid cell Agent has 4 actions to take 13 x 13 x 4
 
 The Agent is given a random starting position and begins to start training 
 Training is done in 10 episodes, after these episodes, if package i not found , grid world is reset (new starting positions and new package position)
@@ -20,12 +20,7 @@ The Agent checks if there is a change in states otherwise , this is seen hitting
 if no wall is hit but not Terminal state the reward is negative small number 
 
 Finds next Maximum Q value
-The value is use to update Q_TABLE is this formula = Q(s, a) = Q(st
-, at
-) + 𝜶[(rt + 𝛾maxa
-Q(st+1 , a)) - Q(st
-, at
-)]
+The value is use to update Q_TABLE is this formula = Q(s, a) = Q(st, at) + 𝜶[(rt + 𝛾maxaQ(st+1 , a)) - Q(st, at)]
 
 Using epsilon the next best action is calculated using Q values in the current state
 Thos actions are added in the action sequence updated the previous
