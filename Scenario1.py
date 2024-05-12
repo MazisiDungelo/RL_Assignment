@@ -23,13 +23,13 @@ def main(stochastic):
     print('Agent starts at: {0}'.format(fourRoomsObj.getPosition()))
     packageStage = (0,0)
     packagesRemaining = 1
-    while packagesRemaining > 0:    
+    while packagesRemaining > 0:  # Checks if package was found after all episodes   
         for episode in range(10):
             total_reward = 0
             for step, act in enumerate(actSeq):
                 currentState = fourRoomsObj.getPosition()
                 gridType, newPos, packagesRemaining, isTerminal = fourRoomsObj.takeAction(act)
-                if currentState == newPos: #hit the wall
+                if currentState == newPos: # hit the wall
                     reward = -1
                 else:
                     reward = -0.2 
@@ -57,10 +57,12 @@ def main(stochastic):
 
 def epsilon_greedy_action(Q_TABLE, currentState, epsilon):
     if np.random.rand() < epsilon:
-        # Explore: Choose a random action
+        # Explore
+        # Choose a random action
         action = np.random.randint(0, 4)
     else:
-        # Exploit: Choose the action with the highest Q-value
+        # Explore
+        # Choose the action with the highest Q-value
         action = np.argmax(Q_TABLE[(currentState[0], currentState[1])])
     return action
 

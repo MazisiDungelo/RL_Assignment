@@ -25,7 +25,7 @@ def main(stochastic):
     packagesRemaining = 3
     package_order = ['RED','GREEN','BLUE']
     collection_index = 0
-    while packagesRemaining > 0:    
+    while packagesRemaining > 0:    # Checks if all packages was found after all episodes 
         for episode in range(50):
             for step, act in enumerate(actSeq):
                 currentState = fourRoomsObj.getPosition()
@@ -33,11 +33,11 @@ def main(stochastic):
 
                 if currentState == newPos or gridType !=  package_order[collection_index]: # hit the wall or out of order
                     reward = -1
-                elif gridType == package_order[collection_index]:
+                elif gridType == package_order[collection_index]: # in order
                     reward = 1
                     collection_index += 1
                 else:
-                    reward = -0.2 
+                    reward = -0.2 # still checkin
 
                 nextMaxQ = np.max(Q_TABLE[newPos[0],newPos[1]])
                 Q_TABLE[(currentState[0],currentState[1],act)] += learning_rate * (reward + (discountFactor * nextMaxQ) - Q_TABLE[(currentState[0],currentState[1],act)])

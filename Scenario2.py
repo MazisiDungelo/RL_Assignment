@@ -29,7 +29,7 @@ def main(stochastic):
     second_package_state = (0,0)
     third_package_state = (0,0)
 
-    while packagesRemaining > 0:    
+    while packagesRemaining > 0:    # Checks if package was found after all episodes  
         for episode in range(50):
             for step, act in enumerate(actSeq):
                 currentState = fourRoomsObj.getPosition()
