@@ -1,6 +1,6 @@
 import numpy as np
 from FourRooms import FourRooms
-import random
+import matplotlib.pyplot as plt
 
 learning_rate = 0.1  # Learning rate
 discountFactor = 0.99  # Discount factor
@@ -24,7 +24,8 @@ def main():
     packageStage = (0,0)
     packagesRemaining = 1
     while packagesRemaining > 0:    
-        for episode in range(2):
+        for episode in range(10):
+            total_reward = 0
             for step, act in enumerate(actSeq):
                 currentState = fourRoomsObj.getPosition()
                 gridType, newPos, packagesRemaining, isTerminal = fourRoomsObj.takeAction(act)
@@ -38,9 +39,9 @@ def main():
                     reward = 1
                 nextMaxQ = np.max(Q_TABLE[newPos[0],newPos[1]])
                 Q_TABLE[(currentState[0],currentState[1],act)] += learning_rate * (reward + (discountFactor * nextMaxQ) - Q_TABLE[(currentState[0],currentState[1],act)])
-
-                best_Q_value_index = np.argmax(Q_TABLE[(currentState[0],currentState[1])])
-                actSeq[step] = best_Q_value_index
+                
+                best_action = epsilon_greedy_action(Q_TABLE, currentState, epsilon=0.1)
+                actSeq[step] =  best_action
                 print("Agent took {0} action and moved to {1} of type {2}".format (aTypes[act], newPos, gTypes[gridType]))
 
 
@@ -48,11 +49,20 @@ def main():
                     print(packageStage)
                     print("Found package")
                     break
+            if isTerminal:
+                break
         fourRoomsObj.newEpoch()
-    
     # Show Path
     fourRoomsObj.showPath(-1)
 
+def epsilon_greedy_action(Q_TABLE, currentState, epsilon):
+    if np.random.rand() < epsilon:
+        # Explore: Choose a random action
+        action = np.random.randint(0, 4)
+    else:
+        # Exploit: Choose the action with the highest Q-value
+        action = np.argmax(Q_TABLE[(currentState[0], currentState[1])])
+    return action
 
 if __name__ == "__main__":
     main()
