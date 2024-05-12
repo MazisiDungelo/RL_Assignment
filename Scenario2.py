@@ -1,15 +1,15 @@
 import numpy as np
 from FourRooms import FourRooms
-import random
+import sys
 
 learning_rate = 0.1  # Learning rate
 discountFactor = 0.99  # Discount factor
 
-def main():
+def main(stochastic):
     # Initialize Q-values for all state-action pairs
     Q_TABLE = np.zeros((13,13,4))
     # Create FourRooms Object
-    fourRoomsObj = FourRooms('multi')
+    fourRoomsObj = FourRooms('multi',stochastic=stochastic)
 
     # This will try to draw a zero
     actSeq = [FourRooms.LEFT, FourRooms.LEFT, FourRooms.LEFT,
@@ -86,4 +86,4 @@ def epsilon_greedy_action(Q_TABLE, currentState, epsilon):
     return action
 
 if __name__ == "__main__":
-    main()
+    main('-stochastic' in sys.argv)
